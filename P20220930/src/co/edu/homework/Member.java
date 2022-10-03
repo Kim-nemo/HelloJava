@@ -50,7 +50,7 @@ public class Member {
 
 	@Override
 	public String toString() {
-		return "회원정보 [회원번호=" + memberNo + ", 이름=" + memberName + ", 생년월일=" + birth + ", 연락처="
+		return "회원정보 [회원번호= " + memberNo + ", 이름= " + memberName + ", 생년월일= " + birth + ", 연락처= "
 				+ tel + "]";
 	}
 }

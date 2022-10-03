@@ -22,7 +22,7 @@ public class MemberDAO {
 		String memberName = scn.nextLine();
 		System.out.print("회원의 생년월일을 입력하세요>> ");
 		String birth = scn.nextLine();
-		System.out.println("회원의 연락처를 입력하세요>> ");
+		System.out.print("회원의 연락처를 입력하세요>> ");
 		String tel = scn.nextLine();
 		
 		Member mem = new Member(mNo, memberName, birth, tel);
@@ -37,20 +37,22 @@ public class MemberDAO {
 	//2. 회원정보 수정
 	public void editMember() {
 		System.out.println("회원정보 수정 기능");
-		System.out.println("수정할 회원의 회원 번호를 입력하세요>> ");
+		System.out.print("수정할 회원의 회원 번호를 입력하세요>> ");
 		int mNo = scn.nextInt();
 		scn.nextLine();
 		
 		for(int i=0; i< myMember.length; i++) {
 			if(myMember[i] != null && myMember[i].getMemberNo() == mNo) {		
 				myMember[i] = null;
+				break;
 			}
 		}
+		
 		System.out.print("수정할 회원 이름을 입력하세요>> ");
 		String memberName = scn.nextLine();
 		System.out.print("수정할 회원의 생년월일을 입력하세요>> ");
 		String birth = scn.nextLine();
-		System.out.println("수정할 회원의 연락처를 입력하세요>> ");
+		System.out.print("수정할 회원의 연락처를 입력하세요>> ");
 		String tel = scn.nextLine();
 		
 		Member mem = new Member(mNo, memberName, birth, tel);
@@ -75,20 +77,24 @@ public class MemberDAO {
 	//4. 회원 조회
 	public void memberSearch() {
 		System.out.println("회원 조회 기능");
-		System.out.println("조회할 회원 번호를 입력하세요>> ");
+		System.out.print("조회할 회원 번호를 입력하세요>> ");
 		int mNo = scn.nextInt();
 		scn.nextLine();
+		boolean check = true;
 		for(int i=0; i < myMember.length; i++) {
 			if(myMember[i] != null && myMember[i].getMemberNo() == mNo) {
 				System.out.println(myMember[i].toString());
+				check = false;
 			}
+		}if(check) {
+			System.out.println("존재하지 않는 회원입니다.");
 		}
 	}
 	
 	//5. 회원 정보 삭제
 	public void memberDel() {
 		System.out.println("회원 삭제 기능");
-		System.out.println("삭제할 회원 번호를 입력하세요>> ");
+		System.out.print("삭제할 회원 번호를 입력하세요>> ");
 		int mNo = scn.nextInt();
 		scn.nextLine();
 		for(int i=0; i < myMember.length; i++) {
