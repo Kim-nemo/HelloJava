@@ -41,6 +41,7 @@ public class MemberDAO {
 		int mNo = scn.nextInt();
 		scn.nextLine();
 		
+		
 		for(int i=0; i< myMember.length; i++) {
 			if(myMember[i] != null && myMember[i].getMemberNo() == mNo) {		
 				myMember[i] = null;
