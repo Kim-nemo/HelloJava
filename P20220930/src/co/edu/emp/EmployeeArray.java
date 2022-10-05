@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class EmployeeArray implements EmployeeService{
 	// 저장공간 생성
 	Employee[] list;
-	int idx = 0;
+	int idx;
 	Scanner scn = new Scanner(System.in);
 	
 	@Override
@@ -42,7 +42,16 @@ public class EmployeeArray implements EmployeeService{
 
 	@Override
 	public String search(int employeeId) {
-		return null;
+		// 입력된 값 중에서 찾도록. list[5] => idx
+		// 100,200,300 
+		String result = null;
+		for(int i=0; i<idx; i++) {
+			if(list[i].getEmployeeId() == employeeId){
+				result = list[i].getName();
+				break;
+			}
+		}
+		return result;
 	}
 
 	@Override
@@ -53,6 +62,19 @@ public class EmployeeArray implements EmployeeService{
 					list[i].getName(), 
 					list[i].getSalary()); // %값은 뒤에서 받아오는 용도, d는 int, s는 문자열
 		}
+	}
+
+	@Override
+	public int searchSal(int employeeId) {
+		// 사원번호 => 급여반환
+		int result = 0;
+		for(int i=0; i<idx; i++) {
+			if(list[i].getEmployeeId() == employeeId) {
+				result = list[i].getSalary();
+				break;
+			}
+		}
+		return result;
 	}
 	
 }
