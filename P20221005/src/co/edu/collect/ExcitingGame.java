@@ -43,5 +43,6 @@ public class ExcitingGame {
 		System.out.println("걸린시간은 : " + min +"분" +sec + "초가 걸렸습니다");
 		
 		
+		
 	}
 }
