@@ -1,5 +1,6 @@
 package co.edu.board;
 
+import java.util.List;
 import java.util.Scanner;
 
 //main
@@ -49,14 +50,23 @@ public class BoardApp {
 				int num = Integer.parseInt(scn.nextLine());
 			}else if(menu==4) {
 				// 글목록
+				System.out.println("전체 목록 조회");
+				List<Board> list = dao.search();
+				for(Board i : list) {
+					System.out.println(i);
+				}
 			}else if(menu==5) {
 				// 상세조회
 				System.out.print("조회할 글의 번호>> ");
 				int num = Integer.parseInt(scn.nextLine());
+				Board i = dao.getNum(num);
+				System.out.println(i);
 			}else if(menu==9) {
 				System.out.println("프로그램 종료");
 				break;
 			}
 		}
+		scn.close();
+		System.out.println("종료");
 	}
 }

@@ -1,5 +1,8 @@
 package co.edu.board;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board {
 	private int num;
 	private String title;
@@ -19,6 +22,7 @@ public class Board {
 		this.date = date;
 		this.cnt = cnt;
 	}
+	
 
 	public int getNum() {
 		return num;
