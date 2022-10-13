@@ -6,21 +6,83 @@ import java.util.List;
 
 // CreateREadUpdateDelete DB여기 넣으래
 public class BoardDAO extends DAO{
-	
-	public void insert(Board brd) {
-		String sql = "insert into board(board_num, board_title, board_content, board_writer)"
-				+ "values( " + brd.getNum()
-				+ ", '" + brd.getTitle()
-				+ ", '" + brd.getContent()
-				+ ", '" + brd.getWriter()
-				+ ", '" + brd.getDate()
-				+ ", '" + brd.getCnt() + "')";
+	//댓글 추가
+	public void insert(Reply rpl) {
+		String sql = "insert into reply(rep_seq, board_num, rep_content, rep_writer, creation_date)\r\n"
+				+ "values(reply_seq.nextval, ? , ? , ? , sysdate)";
 		conn = getConnect();
 		try {
-			stmt = conn.createStatement();
-			int r = stmt.executeUpdate(sql);
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, rpl.getReBNum());
+			psmt.setString(2, rpl.getReContent());
+			psmt.setString(3, rpl.getReWriter());			
+			psmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			disconnect();
+		}
+	}
+	//댓글 조회
+	public List<Reply> getR(int num) {
+		String sql = "select * from Reply where board_num = ?";
+		conn = getConnect();
+		List<Reply> list = new ArrayList<>();
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, num);
+			rs = psmt.executeQuery();
+			while(rs.next()) {
+				list.add(new Reply(rs.getInt("rep_seq")
+						,rs.getInt("board_num")
+						,rs.getString("rep_content")
+						,rs.getString("rep_writer")
+						,rs.getString("creation_date")
+						));
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			disconnect();
+		}
+		return list;
+	}
+	// 로그인
+	public int login(String id, String passwd) {
+		String sql = "select * from users where id = ? and passwd = ?";
+		conn = getConnect();
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			psmt.setString(2, passwd);
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+					return 1;
+				}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return 0;
+	}// end of login
+	
+	//보드 시작
+	public void insert(Board brd) {
+		String sql = "insert into board(board_num, board_title, board_content, board_writer)\r\n"
+				+ "values( ? , ? , ? , ? )";
+		conn = getConnect();
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, brd.getNum());
+			psmt.setString(2, brd.getTitle());
+			psmt.setString(3, brd.getContent());
+			psmt.setString(4, brd.getWriter());
+			
+			int r = psmt.executeUpdate();
 			System.out.println(r + "건 입력됨");
-		}catch(SQLException e){
+		}catch(Exception e){
 			e.printStackTrace();
 		}finally {
 			disconnect();
@@ -36,8 +98,7 @@ public class BoardDAO extends DAO{
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, brd.getContent());
-			psmt.setString(2, brd.getDate());
-			psmt.setInt(3, brd.getNum());
+			psmt.setInt(2, brd.getNum());
 			
 			int r = psmt.executeUpdate();
 			System.out.println(r + "건 변경됨.");
@@ -82,7 +143,7 @@ public class BoardDAO extends DAO{
 						,rs.getInt("cnt")
 				));
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			disconnect();
@@ -92,6 +153,7 @@ public class BoardDAO extends DAO{
 	
 	public Board getNum(int num) {
 		String sql = "select * from board where board_num = ?";
+		String cnt = "update board set cnt = cnt + 1 where board_num = ?";
 		conn = getConnect();
 		Board sNum = null;
 		
@@ -99,6 +161,11 @@ public class BoardDAO extends DAO{
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, num);
 			rs = psmt.executeQuery();
+			
+			psmt = conn.prepareStatement(cnt);
+			psmt.setInt(1, num);
+			psmt.executeUpdate();
+//			System.out.println(r + "만큼 조회수 업뎃");
 			
 			if(rs.next()) {
 				sNum = new Board(rs.getInt("board_num")
@@ -115,5 +182,5 @@ public class BoardDAO extends DAO{
 			disconnect();
 		}
 		return sNum;
-	}
+	} // end of getNum
 }

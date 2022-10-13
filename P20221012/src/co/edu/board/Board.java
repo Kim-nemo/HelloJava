@@ -9,20 +9,39 @@ public class Board {
 	private String content;
 	private String writer;
 	private String date;
-	private String cnt;
+	private int cnt;
 	
 	public Board() {}
 
-	public Board(int num, String title, String content, String writer, String date, String cnt) {
-		super();
+	public Board(int num, String title, String content, String writer, String date, int cnt) {
 		this.num = num;
 		this.title = title;
 		this.content = content;
 		this.writer = writer;
 		this.date = date;
 		this.cnt = cnt;
-	}
+	} // 한건씩, 전체조회
 	
+//	public Board(int num, String title, String content, String writer, int cnt) {
+//		this.num = num;
+//		this.title = title;
+//		this.content = content;
+//		this.writer = writer;
+//		this.cnt = cnt;
+//	}
+	
+//	public Board(int num, String title, String writer, String date) { // insert
+//		this.num = num;
+//		this.title = title;
+//		this.writer = writer;
+//		this.date = date;
+//		} // 전체조회
+	public Board(int num, String title, String content, String writer) { // insert
+		this.num = num;
+		this.title = title;
+		this.content = content;
+		this.writer = writer;
+		} // 인서트
 
 	public int getNum() {
 		return num;
@@ -64,16 +83,19 @@ public class Board {
 		this.date = date;
 	}
 
-	public String getCnt() {
+	public int getCnt() {
 		return cnt;
 	}
 
-	public void setCnt(String cnt) {
+	public void setCnt(int cnt) {
 		this.cnt = cnt;
 	}
 	
 	@Override
 	public String toString() {
-		return "[글 번호= " + num + ",제목: "+title+", 작성자: "+writer+", 작성일시: " + date+"]";
+		return "[글 번호: " + num + ", 제목: " +title+ ", 내용: " +content+ ", 작성자: " +writer+ ", 작성일시: " + date + ", 조회수: " +cnt+ "]";
+	}
+	public String getString() {
+		return "[글 번호: " + num + ", 제목: " +title+ ", 작성자: " +writer+ ", 작성일시: " + date + "]";
 	}
 }
