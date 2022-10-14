@@ -22,20 +22,6 @@ public class Board {
 		this.cnt = cnt;
 	} // 한건씩, 전체조회
 	
-//	public Board(int num, String title, String content, String writer, int cnt) {
-//		this.num = num;
-//		this.title = title;
-//		this.content = content;
-//		this.writer = writer;
-//		this.cnt = cnt;
-//	}
-	
-//	public Board(int num, String title, String writer, String date) { // insert
-//		this.num = num;
-//		this.title = title;
-//		this.writer = writer;
-//		this.date = date;
-//		} // 전체조회
 	public Board(int num, String title, String content, String writer) { // insert
 		this.num = num;
 		this.title = title;
