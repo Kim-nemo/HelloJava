@@ -28,7 +28,11 @@ public class Board {
 		this.content = content;
 		this.writer = writer;
 		} // 인서트
-
+	
+	public Board(int num, String content) {
+		this.num = num;
+		this.content = content;
+	}
 	public int getNum() {
 		return num;
 	}

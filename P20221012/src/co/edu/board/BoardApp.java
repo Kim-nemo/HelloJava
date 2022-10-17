@@ -59,6 +59,17 @@ public class BoardApp {
 				
 //				brd2 = new Board(num, content, date);
 //				dao.update(brd2);
+				
+				brd = new Board(num, content);
+				
+				if(dao.getNum(num).getWriter().equals(id)) {
+					dao.update(brd);
+					System.out.println("수정완료");
+				}else {
+					System.out.println("수정할 권한이 없습니다");
+				}
+				
+				
 			}else if(menu==3) {
 				System.out.print("삭제할 글의 번호>> ");
 				int num = Integer.parseInt(scn.nextLine());
