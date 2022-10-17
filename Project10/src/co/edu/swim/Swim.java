@@ -40,15 +40,15 @@ public class Swim {
 		this.phoneNo = phoneNo;
 		this.birth = birth;
 		this.level = level;
-	} //전체조회
+	} //전체조회,수정
 	
-	public Swim(String name, String sex, String phoneNo, String birth, String level) {
-		this.name = name;
-		this.sex = sex;
-		this.phoneNo = phoneNo;
-		this.birth = birth;
-		this.level = level;
-	} //수정
+//	public Swim(int sNo, String name, String sex, String phoneNo, String birth, String level) {
+//		this.name = name;
+//		this.sex = sex;
+//		this.phoneNo = phoneNo;
+//		this.birth = birth;
+//		this.level = level;
+//	} //수정
 	
 	
 	public String getsId() {

@@ -9,7 +9,6 @@ public class SwimApp {
 		SwimDAO dao = new SwimDAO();
 		Scanner scn = new Scanner(System.in);
 		Swim swm = null;
-		Swim swm2 = null;
 		
 		boolean check = false;
 		while(!check) {
@@ -86,8 +85,13 @@ public class SwimApp {
 				System.out.print("신청 레벨 입력(초,중,고)>> ");
 				String level = scn.nextLine();
 				
-//				swm2 = new Swim(name, sex, phoneNo, birth, level, num);
-//				dao.update(swm2); 수정부분 다시하기!
+				swm = new Swim(num, name, sex, phoneNo, birth, level);
+//				if(num == dao.getsNo()) { // 위에서 입력받은 값과 원래 회원번호가 일치하면
+					dao.update(swm);
+//					System.out.println("수정완료");
+//				}else {
+//					System.out.println("수정할 권한이 없습니다");
+//				}
 			}else if(menu ==5) {
 				System.out.println("< 회원 탈퇴 >");
 				System.out.print("삭제할 회원의 회원번호>> ");
