@@ -8,11 +8,11 @@ public class Swim {
 	private String sex;
 	private String phoneNo;
 	private String birth;
-	private String level;
+	private int level;
 	
 	public Swim() {}
 	
-	public Swim(String sId, String sPw, int sNo, String name, String sex, String phoneNo, String birth, String level) {
+	public Swim(String sId, String sPw, int sNo, String name, String sex, String phoneNo, String birth, int level) {
 		this.sId = sId;
 		this.sPw = sPw;
 		this.sNo = sNo;
@@ -23,7 +23,7 @@ public class Swim {
 		this.level = level;
 	}
 	
-	public Swim(String sId, int sNo, String name, String sex, String phoneNo, String birth, String level) {
+	public Swim(String sId, int sNo, String name, String sex, String phoneNo, String birth, int level) {
 		this.sId = sId;
 		this.sNo = sNo;
 		this.name = name;
@@ -33,7 +33,7 @@ public class Swim {
 		this.level = level;
 	} //인서트
 	
-	public Swim(int sNo, String name, String sex, String birth, String phoneNo, String level) {
+	public Swim(int sNo, String name, String sex, String birth, String phoneNo, int level) {
 		this.sNo = sNo;
 		this.name = name;
 		this.sex = sex;
@@ -107,11 +107,11 @@ public class Swim {
 		this.birth = birth;
 	}
 
-	public String getLevel() {
+	public int getLevel() {
 		return level;
 	}
 
-	public void setLevel(String level) {
+	public void setLevel(int level) {
 		this.level = level;
 	}
 	

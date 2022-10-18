@@ -51,7 +51,7 @@ public class SwimDAO extends DAO{
 			psmt.setString(5, swm.getSex());
 			psmt.setString(6, swm.getBirth());
 			psmt.setString(7, swm.getPhoneNo());
-			psmt.setString(8, swm.getLevel());
+			psmt.setInt(8, swm.getLevel());
 			
 			psmt.executeUpdate();
 //			System.out.println(r + "건 입력됨");
@@ -74,7 +74,7 @@ public class SwimDAO extends DAO{
 						,rs.getString("member_sex")
 						,rs.getString("member_birth")
 						,rs.getString("member_phoneNo")
-						,rs.getString("member_level")
+						,rs.getInt("member_level")
 				));
 			}
 		} catch (Exception e) {
@@ -103,7 +103,7 @@ public class SwimDAO extends DAO{
 						,rs.getString("member_sex")
 						,rs.getString("member_birth")
 						,rs.getString("member_phoneNo")
-						,rs.getString("member_level")
+						,rs.getInt("member_level")
 						);
 			}
 		}catch(SQLException e) {
@@ -118,18 +118,18 @@ public class SwimDAO extends DAO{
 		String sql = "update member "
 				+ "set member_name = ?, "
 				+ "member_sex = ?, "
-				+ "member_phoneNo = ?, "
 				+ "member_birth = ?, "
-				+ "member_level = ?, "
+				+ "member_phoneNo = ?, "
+				+ "member_level = ? "
 				+ "where member_no = ?";
 		conn = getConnect();
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, swm.getName());
 			psmt.setString(2, swm.getSex());
-			psmt.setString(3, swm.getPhoneNo());
-			psmt.setString(4, swm.getBirth());
-			psmt.setString(5, swm.getLevel());
+			psmt.setString(3, swm.getBirth());
+			psmt.setString(4, swm.getPhoneNo());
+			psmt.setInt(5, swm.getLevel());
 			psmt.setInt(6, swm.getsNo());
 			
 			int r = psmt.executeUpdate();
@@ -159,4 +159,25 @@ public class SwimDAO extends DAO{
 		}
 		return false;
 	}// end of delete
+	
+	public List<SwimClass> info() {
+		conn = getConnect();
+		List<SwimClass> list = new ArrayList<>();
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select * from swimClass");
+			while(rs.next()) {
+				list.add(new SwimClass(rs.getInt("class_level")
+						,rs.getString("class_name")
+						,rs.getString("class_day")
+						,rs.getString("class_teacher")
+				));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return list;
+	}// end of search
 }
