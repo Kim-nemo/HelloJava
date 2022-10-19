@@ -160,24 +160,58 @@ public class SwimDAO extends DAO{
 		return false;
 	}// end of delete
 	
-	public List<SwimClass> info() {
+	public SwimClass getcLv(int level) {
+		String sql = "select * from swimClass where class_level = ?";
+		
 		conn = getConnect();
-		List<SwimClass> list = new ArrayList<>();
+		SwimClass sLevel = null;
+		
 		try {
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select * from swimClass");
-			while(rs.next()) {
-				list.add(new SwimClass(rs.getInt("class_level")
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, level);
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				sLevel = new SwimClass(rs.getInt("class_level")
 						,rs.getString("class_name")
 						,rs.getString("class_day")
 						,rs.getString("class_teacher")
-				));
+						);
 			}
-		} catch (Exception e) {
+		}catch(SQLException e) {
 			e.printStackTrace();
-		} finally {
+		}finally {
 			disconnect();
 		}
-		return list;
-	}// end of search
+		return sLevel;
+	}// end of getcLv
+	
+	public Swim getsId(String sId) {
+		String sql = "select * from member where id = ?";
+		
+		conn = getConnect();
+		Swim mId = null;
+		
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, sId);
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				mId = new Swim(rs.getString("id")
+						,rs.getInt("member_no")
+						,rs.getString("member_name")
+						,rs.getString("member_sex")
+						,rs.getString("member_birth")
+						,rs.getString("member_phoneNo")
+						,rs.getInt("member_level")
+						);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			disconnect();
+		}
+		return mId;
+	}// end of getsId
 }

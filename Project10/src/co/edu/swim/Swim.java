@@ -126,4 +126,8 @@ public class Swim {
 			+ ", 생년월일: "+ birth +", 연락처: " + phoneNo 
 			+ ", 레벨: "+ level;
 	}
+	
+//	public String lvString() {
+//		return "[신청하신 레벨: " +  level + "급]";
+//	}
 }
