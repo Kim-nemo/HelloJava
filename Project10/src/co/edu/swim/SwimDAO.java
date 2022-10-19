@@ -214,4 +214,38 @@ public class SwimDAO extends DAO{
 		}
 		return mId;
 	}// end of getsId
+	
+	// 수강정보
+	public Gangjwa getgName(String gName) {
+		String sql = "select m.member_name, s.class_teacher, s.class_level, g.g_janyeo\n"
+				+ "from member m, swimclass s, gangjwa g\n"
+				+ "where m.member_level = s.class_level\n"
+				+ "and s.class_name = g.g_name\n"
+				+ "and g.g_name like '%?%'"; // 실행안됨..
+		
+		conn = getConnect();
+		Gangjwa gjName = null;
+		
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, gName);
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				gjName = new Gangjwa(rs.getString("id")
+						,rs.getInt("member_no")
+						,rs.getString("member_name")
+						,rs.getString("member_sex")
+						,rs.getString("member_birth")
+						,rs.getString("member_phoneNo")
+						,rs.getInt("member_level")
+						);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			disconnect();
+		}
+		return gjName;
+	}
 }

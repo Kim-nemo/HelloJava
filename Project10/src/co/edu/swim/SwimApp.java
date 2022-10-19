@@ -10,6 +10,7 @@ public class SwimApp {
 		Scanner scn = new Scanner(System.in);
 		Swim swm = null;
 		SwimClass swmc = null;
+		Gangjwa gj = null;
 		
 		boolean check = false;
 		while(!check) {
@@ -32,7 +33,7 @@ public class SwimApp {
 			
 		while(true) {
 			System.out.println("=======================================================================");
-			System.out.println("※메뉴※ 1.회원등록 2.회원리스트 조회 3.회원 조회 4.회원정보수정 5.회원탈퇴 6.수강조회 9.종료 ");
+			System.out.println("※메뉴※ 1.회원등록 2.회원리스트 조회 3.회원 조회 4.회원정보수정 5.회원탈퇴 6.수강조회 7.수강정보 9.종료 ");
 			System.out.print(">> ");
 			
 			int menu = scn.nextInt();
@@ -168,6 +169,39 @@ public class SwimApp {
 					System.out.println("레벨 조회는 1,2,3급만 가능합니다");
 				}
 				
+			}else if(menu ==7) {
+				System.out.println("< [관리자 전용] 수강 정보 >");
+				System.out.println("1.수강등록 2.수강조회");
+				System.out.print(">> ");
+				int subMenu = Integer.parseInt(scn.nextLine());
+				
+				if(subMenu == 1) {
+					
+					System.out.println("< 수강 등록 페이지 >");
+					System.out.print("등록할 강좌명>> ");
+					String gName = scn.nextLine();
+					System.out.print("등록할 학생이름>> ");
+					String gStuName = scn.nextLine();
+					System.out.print("등록할 강사명>> ");
+					String gTeacher = scn.nextLine();
+					System.out.print("등록할 레벨(1,2,3)>> ");
+					int gLevel = Integer.parseInt(scn.nextLine());
+					System.out.print("강좌정원 입력>> ");
+					int gCount = Integer.parseInt(scn.nextLine());
+					
+					gj = new Gangjwa(gName, gStuName, gTeacher, gLevel, gCount);
+					
+				}else if(subMenu == 2) {
+					System.out.println("< 수강 조회 페이지 >");
+					System.out.print("조회할 강좌명>> ");
+					String gName = scn.nextLine();
+					if(gName != null) {
+						
+					}else {
+						
+					}
+				}
+					
 			}else if(menu ==9) {
 				System.out.println("=======================================================================");
 				System.out.println("프로그램 종료");
