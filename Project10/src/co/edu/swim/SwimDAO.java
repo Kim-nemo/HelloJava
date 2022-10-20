@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SwimDAO extends DAO{
+	
+	
+	
 	//로그인
 	public int login(String id, String passwd) {
 		String sql = "select * from manager where id = ? and passwd = ?";
@@ -215,37 +218,144 @@ public class SwimDAO extends DAO{
 		return mId;
 	}// end of getsId
 	
-	// 수강정보
-	public Gangjwa getgName(String gName) {
-		String sql = "select m.member_name, s.class_teacher, s.class_level, g.g_janyeo\n"
+	// 수강정보	
+//	public List<Gangjwa> searchG (String gName) {
+//		String sql = "select s.class_name, m.member_name, s.class_teacher, s.class_level, g.g_janyeo\n"
+//				+ "from member m, swimclass s, gangjwa g\n"
+//				+ "where m.member_level = s.class_level\n"
+//				+ "and s.class_name = g.g_name\n"
+//				+ "and g.g_name like '%'||?||'%'"; // 실행안됨..
+//		
+//		conn = getConnect();
+//		List<Gangjwa> list = new ArrayList<>();
+//		
+//		try {
+//			psmt = conn.prepareStatement(sql);
+//			psmt.setString(1, gName);
+//			rs = psmt.executeQuery();
+//			
+//			while(rs.next()) {
+//				list.add(new Gangjwa(rs.getString("class_name")
+//						,rs.getString("member_name")
+//						,rs.getString("class_teacher")
+//						,rs.getInt("class_level")
+//						,rs.getInt("g_janyeo")
+//						));
+//			}
+//		}catch(SQLException e) {
+//			e.printStackTrace();
+//		}finally {
+//			disconnect();
+//		}
+//		return list;
+//	}// 수강정보 조회
+	
+	public List<Gangjwa> searchG (String gTeacher) {
+		String sql = "select s.class_name, m.member_name, s.class_day, s.class_level, g.g_janyeo\n"
 				+ "from member m, swimclass s, gangjwa g\n"
 				+ "where m.member_level = s.class_level\n"
 				+ "and s.class_name = g.g_name\n"
-				+ "and g.g_name like '%?%'"; // 실행안됨..
+				+ "and s.class_teacher like '%'||?||'%'"
+				+ " order by s.class_name"; 
 		
 		conn = getConnect();
-		Gangjwa gjName = null;
+		List<Gangjwa> list = new ArrayList<>();
 		
 		try {
 			psmt = conn.prepareStatement(sql);
-			psmt.setString(1, gName);
+			psmt.setString(1, gTeacher);
 			rs = psmt.executeQuery();
 			
-			if(rs.next()) {
-				gjName = new Gangjwa(rs.getString("id")
-						,rs.getInt("member_no")
+			while(rs.next()) {
+				list.add(new Gangjwa(rs.getString("class_name")
 						,rs.getString("member_name")
-						,rs.getString("member_sex")
-						,rs.getString("member_birth")
-						,rs.getString("member_phoneNo")
-						,rs.getInt("member_level")
-						);
+						,rs.getString("class_day")
+						,rs.getInt("class_level")
+						,rs.getInt("g_janyeo")
+						));
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
 			disconnect();
 		}
-		return gjName;
+		return list;
+	}// 강사명 수강조회
+	
+	// 강좌개설
+	public void openClassSc(Gangjwa gj) {
+		String scsql = "insert into swimclass(class_level, class_name, class_day, class_teacher)\r\n"
+				+ "values( ?, ? ,? ,?)";
+		conn = getConnect();
+		
+		try {
+			psmt = conn.prepareStatement(scsql);
+			psmt.setInt(1, gj.getgLevel());
+			psmt.setString(2, gj.getgName());
+			psmt.setString(3, gj.getgDay());
+			psmt.setString(4, gj.getgTeacher());
+			
+					
+			psmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			disconnect();
+		}
+		
 	}
+	
+	public void openClassN(Gangjwa ngj) {
+		String sql = "insert into Gangjwa(g_name, g_count, g_janyeo) "
+					+"values(?, ?, 0)";
+			conn = getConnect();
+		
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, ngj.getgName());
+			psmt.setInt(2, ngj.getgCount());
+					
+			psmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			disconnect();
+		}
+	}
+	
+	public boolean gDelete(String gName) {
+		String sql = "delete from swimclass where class_name like '%'||?||'%'";
+		conn = getConnect();
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, gName);
+			
+			int r = psmt.executeUpdate();
+			if(r>0)
+				return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return false;
+	}// 강좌삭제
+	
+	public boolean gGDelete(String gName) {
+		String sql = "delete from gangjwa where g_name like '%'||?||'%'";
+		conn = getConnect();
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, gName);
+			
+			int r = psmt.executeUpdate();
+			if(r>0)
+				return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return false;
+	}// 강좌삭제
 }

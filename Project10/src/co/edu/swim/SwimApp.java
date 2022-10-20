@@ -9,8 +9,8 @@ public class SwimApp {
 		SwimDAO dao = new SwimDAO();
 		Scanner scn = new Scanner(System.in);
 		Swim swm = null;
-		SwimClass swmc = null;
 		Gangjwa gj = null;
+		Gangjwa ngj = null;
 		
 		boolean check = false;
 		while(!check) {
@@ -32,7 +32,7 @@ public class SwimApp {
 			}//로그인
 			
 		while(true) {
-			System.out.println("=======================================================================");
+			System.out.println("===============================================================================");
 			System.out.println("※메뉴※ 1.회원등록 2.회원리스트 조회 3.회원 조회 4.회원정보수정 5.회원탈퇴 6.수강조회 7.수강정보 9.종료 ");
 			System.out.print(">> ");
 			
@@ -171,37 +171,56 @@ public class SwimApp {
 				
 			}else if(menu ==7) {
 				System.out.println("< [관리자 전용] 수강 정보 >");
-				System.out.println("1.수강등록 2.수강조회");
-				System.out.print(">> ");
-				int subMenu = Integer.parseInt(scn.nextLine());
-				
-				if(subMenu == 1) {
+				if(dao.login(id, pw)==1) {
+					System.out.println("1.강좌개설 2.강좌삭제 3.수강조회");
+					System.out.print(">> ");
+					int subMenu = Integer.parseInt(scn.nextLine());
 					
-					System.out.println("< 수강 등록 페이지 >");
-					System.out.print("등록할 강좌명>> ");
-					String gName = scn.nextLine();
-					System.out.print("등록할 학생이름>> ");
-					String gStuName = scn.nextLine();
-					System.out.print("등록할 강사명>> ");
-					String gTeacher = scn.nextLine();
-					System.out.print("등록할 레벨(1,2,3)>> ");
-					int gLevel = Integer.parseInt(scn.nextLine());
-					System.out.print("강좌정원 입력>> ");
-					int gCount = Integer.parseInt(scn.nextLine());
-					
-					gj = new Gangjwa(gName, gStuName, gTeacher, gLevel, gCount);
-					
-				}else if(subMenu == 2) {
-					System.out.println("< 수강 조회 페이지 >");
-					System.out.print("조회할 강좌명>> ");
-					String gName = scn.nextLine();
-					if(gName != null) {
+					if(subMenu == 1) {
 						
-					}else {
+						System.out.println("< 강좌 개설 페이지 >");
+						System.out.print("등록할 강좌명>> ");
+						String gName = scn.nextLine();
+						System.out.print("등록할 강사명>> ");
+						String gTeacher = scn.nextLine();
+						System.out.print("개설할 강좌 요일>> ");
+						String gDay = scn.nextLine();
+						System.out.print("등록할 레벨(1,2,3)>> ");
+						int gLevel = Integer.parseInt(scn.nextLine());
+						System.out.print("등록할 정원>> ");
+						int gCount = Integer.parseInt(scn.nextLine());
 						
+						gj = new Gangjwa(gName, gTeacher, gDay, gLevel);
+						dao.openClassSc(gj);
+						
+						ngj = new Gangjwa(gName, gCount , 0);
+						dao.openClassN(ngj);
+						
+						
+					}else if(subMenu == 2) {
+						
+						System.out.println("< 강좌 삭제 페이지 >");
+						System.out.print("삭제할 강좌명>> ");
+						String gName = scn.nextLine();
+						dao.gDelete(gName);
+						dao.gGDelete(gName);
+						
+					}else if(subMenu == 3) {
+						System.out.println("< 수강 조회 페이지 >");
+						System.out.print("강사명 입력>> ");
+						String gTeacher = scn.nextLine();
+						List<Gangjwa> list = dao.searchG(gTeacher);
+						for(Gangjwa i : list) {
+							if(i!=null) {
+								System.out.println(i.toString());
+							}else {
+								System.out.println("조회할 강좌가 없습니다");
+							}
+						}
 					}
+				} else {
+					System.out.println("접근 권한이 없습니다");
 				}
-					
 			}else if(menu ==9) {
 				System.out.println("=======================================================================");
 				System.out.println("프로그램 종료");
