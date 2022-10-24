@@ -30,6 +30,7 @@ public class AddMemberServ extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+    //get 방식의 요청
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
@@ -66,9 +67,13 @@ public class AddMemberServ extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+	
+	// post 방식의 요청시 실행
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		response.setContentType("text/html;charset=UTF-8");
+//		doGet(request, response);
+		PrintWriter out = response.getWriter(); // 사용자의 브라우저(출력스트림 생성)
+		out.print("<h3>Post 방식의 요청</h3>");
 	}
-
 }
