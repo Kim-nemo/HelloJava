@@ -8,16 +8,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import co.edu.common.Command;
 import co.edu.common.HttpUtil;
+import co.edu.service.MemberService;
+import co.edu.service.MemberServiceImpl;
 
-public class MemberModifyForm implements Command {
+public class MemberRemove implements Command {
 
 	@Override
 	public void exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//		String name = req.getParameter("name");
-//		
-//		req.setAttribute("sname", name);
+		String id = req.getParameter("id");
+		MemberService service = new MemberServiceImpl();
+		service.removeMember(id);
 		
-		HttpUtil.forward(req, resp, "memberView/memberUpdate.jsp");
+		HttpUtil.forward(req, resp, "memberResult/memberDeleteOutput.jsp");
 	}
 
 }

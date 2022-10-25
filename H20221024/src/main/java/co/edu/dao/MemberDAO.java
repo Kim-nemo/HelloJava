@@ -44,6 +44,7 @@ public class MemberDAO extends DAO {
 									,rs.getString("passwd")
 									,rs.getString("name")
 									,rs.getString("email")
+									,rs.getString("resposibility")
 									);
 				
 			}
@@ -91,24 +92,24 @@ public class MemberDAO extends DAO {
 	}
 	
 	public List<MemberVO> memberList() {
-		List<MemberVO> memberList = new ArrayList<MemberVO>();
+		List<MemberVO> list = new ArrayList<MemberVO>();
 		getConnect();
-		String sql = "select * from members "
-					+ "where id like '%'||?||'%' "
-					+ "and passwd like '%'||?||'%' "
-					+ "and name like '%'||?||'%' "
-					+ "and email like '%'||?||'%' ";
+		String sql = "select * from members";
+//					+ "where id like '%'||?||'%' "
+//					+ "and passwd like '%'||?||'%' "
+//					+ "and name like '%'||?||'%' "
+//					+ "and email like '%'||?||'%' ";
 		try {
 			psmt = conn.prepareStatement(sql);
-			psmt.executeQuery();
+			rs = psmt.executeQuery();
 			while(rs.next()) {
 				String id = rs.getString("id");
 				String pw = rs.getString("passwd");
 				String name = rs.getString("name");
 				String email = rs.getString("email");
+				String resposibility = rs.getString("resposibility");
 				
-				MemberVO mem = new MemberVO(id, pw, name, email);
-				memberList.add(mem);
+				list.add(new MemberVO(id, pw, name, email,resposibility));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -116,6 +117,34 @@ public class MemberDAO extends DAO {
 			disconnect();
 		}
 		
-		return memberList;
+		return list;
 	}
+	
+	// String id, String passwd => MemberVO타입으로 리턴
+	public MemberVO login(String id, String passwd) {
+		getConnect();
+		String sql = "select * from members where id=? and passwd=?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			psmt.setString(2, passwd);
+			
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				MemberVO vo = new MemberVO();
+				vo.setId(rs.getString("id"));
+				vo.setName(rs.getString("name"));
+				vo.setEmail(rs.getString("email"));
+				vo.setPasswd(rs.getString("passwd"));
+				vo.setResposibility(rs.getString("resposibility"));
+				return vo;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return null;
+	}
+	
 }
