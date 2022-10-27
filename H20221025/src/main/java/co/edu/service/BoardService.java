@@ -3,6 +3,7 @@ package co.edu.service;
 import java.util.List;
 
 import co.edu.board.BoardVO;
+import co.edu.board.MemberVO;
 
 public interface BoardService {
 	// 기능만 정의
@@ -19,4 +20,7 @@ public interface BoardService {
 	
 	//페이지
 	public List<BoardVO> pageList(int page);
+	
+	// 회원목록
+	public List<MemberVO> memberList();
 }
