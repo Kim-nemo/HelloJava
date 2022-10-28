@@ -16,4 +16,15 @@ public class MemberServiceImpl implements MemberService {
 	public MemberVO login(String id, String passwd) {
 		return dao.login(id, passwd);
 	}
+
+	@Override
+	public boolean updatePasswd(MemberVO vo) {
+		return dao.updatePasswd(vo);
+	}
+
+	@Override
+	public MemberVO searchEmail(String id) {
+		return dao.searchEmail(id);
+	}
+
 }

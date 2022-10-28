@@ -61,4 +61,56 @@ public class MemberDAO extends DAO {
 		}
 		return null;
 	}
+	
+	// 비밀번호 수정할 메소드 필요 update
+		public boolean updatePasswd(MemberVO vo) {
+			// 처리 건수 리턴. 처리건수가 0이면 false;
+			getConnect();
+			String sql = "update members\r\n"
+					+ "set passwd = ?\r\n"
+					+ "where id = ?";
+			try {
+				psmt = conn.prepareStatement(sql);
+				psmt.setString(1, vo.getPasswd());
+				psmt.setString(2, vo.getId());
+				
+				int r = psmt.executeUpdate();
+				if(r!=0) {
+				return true;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				disconnect();
+			}
+			return false;
+		}
+		
+	// 아이디에 해당하는 이메일 찾기
+		public MemberVO searchEmail(String id) {
+			getConnect();
+			String sql = "select * from members where id=?";
+			MemberVO member= null;
+			try {
+				psmt = conn.prepareStatement(sql);
+				
+				psmt.setString(1, id);
+				rs = psmt.executeQuery();
+				
+				if(rs.next()) {
+					member = new MemberVO(rs.getString("id")
+										,rs.getString("passwd")
+										,rs.getString("name")
+										,rs.getString("email")
+										,rs.getString("resposibility")
+										);
+					
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				disconnect();
+			}
+			return member;
+		}
 }

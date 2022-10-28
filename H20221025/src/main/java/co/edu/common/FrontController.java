@@ -14,6 +14,8 @@ import co.edu.control.BulletinControl;
 import co.edu.control.LogOut;
 import co.edu.control.MainControl;
 import co.edu.control.MemberList;
+import co.edu.control.PasswdRe;
+import co.edu.control.PasswdReForm;
 import co.edu.control.SearchBoard;
 import co.edu.control.SignIn;
 import co.edu.control.SignInForm;
@@ -56,7 +58,10 @@ public class FrontController extends HttpServlet {
 		controlList.put("/signIn.do", new SignIn()); // 로그인 처리
 		
 		controlList.put("/signOut.do", new LogOut());// 로그아웃처리
-	}
+		
+		controlList.put("/passwdReForm", new PasswdReForm()); // 비밀번호 재전송
+		controlList.put("/passwdRe.do", new PasswdRe());
+		}
 	// service()
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

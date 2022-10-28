@@ -7,5 +7,6 @@ import co.edu.dao.MemberDAO;
 public interface MemberService {
 	public MemberVO insertMember(MemberVO vo);
 	public MemberVO login(String id, String passwd);
-	
+	public boolean updatePasswd(MemberVO vo);
+	public MemberVO searchEmail(String id);
 }
