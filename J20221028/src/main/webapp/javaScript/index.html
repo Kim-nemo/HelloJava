@@ -1,12 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Index.html</title>
+	<meta charset="UTF-8">
+	<title>Index.html</title>
+	<script src="dom2.js"></script>
 </head>
+<style>
+	table,th,td{
+		border: 1px solid black;
+	}
+	thead{
+		background-color: blanchedalmond;
+	}
+</style>
 <body>
-	<script>
+	<form action="">
+		id: <input type="text" id="id"><br>
+		first_name: <input type="text" id = "fname"><br>
+		<!-- last_name: <input type="text" id = "lname"><br>-->
+		email: <input type="text" id= "email"><br>
+		salary: <input type="number" id ="salary"><br>
+		gender: <select id="gender">
+					<option value="Male">남</option>
+					<option value="Female">여</option>
+				</select><br>
+		<button type="button">추가</button>
+		<button type="button">수정</button>
+		<button type="button">선택삭제</button>
 		
-	</script>
+	</form>
+	<hr>
+	<div id="show">
+		<!--  <form action="index.html">
+			ID: <input type="text" id="id"><br>
+			Name: <input type="text" id="name"><br>
+			Phone: <input type="text" id="phone"><br>
+			<input type="submit" value="전송">
+		</form> -->
+
+		<!--<table border='1'>
+			<thead>id, firstName, lastName, email, salary</thead>
+			<tbody>id, firstName, lastName, email, salary</tbody>
+		</table>-->
+	</div>
 </body>
 </html>
