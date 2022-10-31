@@ -14,7 +14,7 @@ public class MailApp {
 
 	public String sendMail(String from, String to, String subject, String content) {
 		String _email = "rhakdnj1232@naver.com";
-		String _password = "h1031902@k";
+		String _password = "password";
 
 		System.out.println("Start JavaMail API Test ~!");
 
