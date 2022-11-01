@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>memberAdd.html</title>
+</head>
+
+<body>
+	<h3>회원등록페이지</h3>
+	<form name="submitFrm" action="" method="post">
+		id: <input type="text" id="id"><br>
+		pass: <input type="text" id="passwd"><br>
+		name: <input type="text" id="name"><br>
+		email: <input type="email" id="email"><br>
+		<input type="submit" value="등록">
+	</form>
+	<form name="secondFrm"></form>
+
+	<script>
+		document.forms.submitFrm.action = "../index.html";
+		//submitFrm.method = 'get';
+		document.forms.submitFrm.onsubmit = function (e) {
+			e.preventDefault(); // 이게 있어야 그 페이지 안에 머물러 있음. 
+			//console.log('hhhh');
+			let id = document.getElementById('id').value;
+			let pw = document.getElementById('passwd').value;
+			let nm = document.getElementById('name').value;
+			let em = document.getElementById('email').value;
+			let check = id && pw && em && nm; // 자바스크립튼 값이있으면 true, 값이 없거나 0이면 false
+			if (!check) { // 위 변수 중 하나라도 false가 있으면
+				alert('필수 항목입니다')
+				return false;
+			}
+			//submitFrm.submit();
+			let data = 'id=' + id + '&passwd=' + pw + '&name=' + nm + '&email=' + em; //키와밸류형식, 파란색이 파라메터 이름
+			let ajax = new XMLHttpRequest();
+			ajax.open('post', '../MemberListServlet');
+			ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); // x어쩌구~ 키 밸류 값으로 받겠다. json을 넣으면 json으로 받겠다
+			ajax.send(data);
+			ajax.onload = function () { // ajax라는 객체가 onload라는 이벤트를 받았을 때
+				console.log(this.responseText);
+				let data = JSON.parse(this.responseText);
+				let pTag = document.createElement('p');
+				pTag.textContent = '아이디: ' + data.id + ', 이름: ' + data.name;
+
+				document.forms.secondFrm.after(pTag);
+				secondFrm.after(pTag); // append는 하위요소, after은 동생
+			}
+
+		}
+	</script>
+</body>
+
+</html>
