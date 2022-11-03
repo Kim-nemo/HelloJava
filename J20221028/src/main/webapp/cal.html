@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>cal.html</title>
+	<script>
+		let obj = {
+			id: 'hong',
+			age: 20
+		}
+		obj = {} //new Object();
+		let ary = [] //new Array();
+		let today = new Date();
+		// getFullYear, getMonth
+
+		document.addEventListener('DOMContentLoaded', function () {
+
+			today = new Date(2022,10,1); 
+			let thisDay = today.getDay(); // 오늘 날짜의 요일정보
+			let lastDate = new Date(today.getFullYear(), today.getMonth()+1,0).getDate();
+			console.log(thisDay)
+			console.log(lastDate);
+			let table = document.createElement('table');
+			table.setAttribute('border', '1');
+			
+			let tbody = document.createElement('tbody');
+			let tr = document.createElement('tr');
+			tbody.append(tr);
+
+			//요일지정
+			for (let i=0; i<thisDay; i++){
+				let td = document.createElement('td');
+				tr.append(td);
+			}
+
+			for (let i = 1; i <= lastDate; i++) {
+				let td = document.createElement('td');
+				td.textContent = i;
+				tr.append(td);
+				if ((i+thisDay) % 7 == 0) {
+					tr = document.createElement('tr'); // 새로 tr을 만들어서
+					td.firstChild = td.style.backgroundColor = "skyblue";
+					tbody.append(tr); // tr이 만들어질 때마다 tbody에 붙여줌
+				}
+				
+			}
+
+			table.append(tbody);
+			document.getElementById('show').append(table);
+		})
+	</script>
+</head>
+
+<body>
+
+	<div id="show"></div>
+	<script>
+	</script>
+</body>
+
+</html>

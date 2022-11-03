@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+    div{
+        display: inline-block;
+        width: 460px;
+        background-color: green;
+    }
+    p{
+        display: inline-block;
+        width: 100px;
+        background-color: yellow;
+        padding: 5px;
+        margin: 4px;
+    }
+</style>
+</head>
+<body>
+    단어입력: <input type="text" id="word"><button id="btn">입력</button>
+    <div id="wordlist">
+    </div>
+    <div id="timer">
+    </div>
+    <script>
+        let words = 
+            `Lorem illusion adolescence shine heimish hello purity heimish stella lovesick bananalike charming twinkle adolescence fascinating stella apple serendipity haze pure ideale baby world twilight girlish pure shine adorable requiem apple`;
+        let wordAry = words.split(' ');
+        wordAry.forEach(word => {
+            let pTag = document.createElement('p');
+            pTag.textContent = word;
+            document.getElementById('wordlist').append(pTag)
+        });
+
+
+        document.querySelector('#btn').addEventListener('click', findWord);
+
+        function findWord(){
+            let word = document.getElementById('word').value; // 입력한 값
+            let searchKey = document.querySelectorAll('#wordlist>p'); // p태그안에 단어를 찾기
+
+            searchKey.forEach(key =>{
+                //console.log(key.textContent);
+            })
+            //console.log(word);
+            //console.log(searchKey);
+            
+            //같으면 p태그를 remove
+            searchKey.forEach(result =>{
+                //console.log(result.textContent);
+                if(word == result.textContent){
+                    result.remove();
+                    console.log('삭제완료');   
+                }
+                document.getElementById('word').value = null;
+            }); // 입력한 값과 같은 단어를 p태그 안에 단어들에서 찾기
+                    
+
+            // timer
+            Data.prototype.timeFormater = function(){
+                return("0" + this.getHours()).slice(-2) + ":" + // slice는 substring이랑 비슷. slice는 음수값 사용가능. 뒤에서 두자리를 짤라오겠습니다
+                    ("0" + this.getMinutes()).slice(-2) + ":" +
+                    ("0" + this.getSeconds()).slice(-2);
+            }
+            
+            String.prototype.ltrim=function(){}   //무슨기능..?
+        
+            let time = 50;
+
+            setTimeout(function(){}, 5000); //5초이따가 한번만 실행
+
+            let timer1 = setInterval(()=>{ // setInterval()
+                //100초 =>
+                time--;
+                document.getElementById('timer').textContent = time; // value는 input일때만, div태그라서 textContent
+                let items = document.querySelectorAll('#wordlist>p');
+
+                if (!items.length && time) {
+                    alert('success')
+                    clearInterval(timer1);
+                } else if(!time){
+                    alert('fail');
+                    clearInterval(timer1); // setInterval을 종료하는 clearInterval(변수)
+                }
+                
+            }, 1000);
+            document.getElementById('word').focus();
+        }
+    </script>
+</body>
+</html>
