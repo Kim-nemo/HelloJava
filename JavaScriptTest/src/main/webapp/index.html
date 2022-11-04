@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<h3>도서목록 페이지</h3>
+	<form name="submitFrm" action="" method="post">
+		도서코드: <input type="text" id="bookCode"><br>
+		도서명: <input type="text" id="bookName"><br>
+		저자: <input type="text" id="author"><br>
+		출판사: <input type="text" id="press"><br>
+		금액: <input type="text" id="price"><br>
+		<input type="button" id="submit" value="저장">
+		<input type="button" id="selectDel" value="선택삭제">
+	</form>
+	<div id="show">
+		<table>
+			<thead>
+				<tr>
+					<th><input type="checkbox"></th>
+					<th>도서코드</th>
+					<th>도서명</th>
+					<th>저자</th>
+					<th>출판사</th>
+					<th>가격</th>
+					<th>삭제</th>
+				</tr>
+			</thead>
+			<tbody id="list">
+			</tbody>
+		</table>
+	</div>
+
+	<script>
+		fetch('./BookListServlet')
+			.then(result => result.json())
+			.then(showData)
+			.catch(function (err) {
+				console.log(err);
+			})
+
+		function showData(result) {
+			console.log(result)
+			result.forEach(book => document.getElementById('list').append(makeTr(book)));
+		}
+
+		function makeTr(book) {
+
+			//체크박스 <input type="checkbox">
+			let tr = document.createElement('tr');
+			let td = document.createElement('td');
+			let checkbox = document.createElement('input');
+			checkbox.setAttribute('type', 'checkbox');
+			// checkbox.addEventListener('change', function(){
+			// let cks = document.querySelectorAll('#list input[type="checkbox"]');
+			// cks.forEach(function(check){
+			// check.checked = checkbox.checked;
+			// })
+			// })
+			td.prepend(checkbox);
+			tr.append(td);
+
+
+			//선택삭제
+			document.getElementById('selectDel').addEventListener('click', deleteFunc);
+
+			function deleteFunc() {
+				let trs = document.querySelectorAll('#show>table>thead>tbody>tr');
+				for (let i = 0; i < trs.length; i++) {
+					if (trs[i].children[7].firstElementChild.checked) {
+						console.log(trs);
+						trs[i].remove();
+					}
+				}
+			}
+
+			//
+			for (let field in book) {
+				let td = document.createElement('td');
+				let txt = document.createTextNode(book[field]);
+				td.append(txt);
+				tr.append(td);
+			}
+
+			// 삭제 버튼
+			let btn = document.createElement('button');
+			//btn.addEventListener('click', deleteFnc);
+			td = document.createElement('td');
+			btn.textContent = '삭제';
+			td.append(btn);
+			tr.append(td);
+
+			return tr;
+
+
+		}
+
+		document.forms.submitFrm.onsubmit = addFunc; //저장버튼 누르면 실행
+
+		function addFunc(e) {
+			e.preventDefault();
+			let bookCode = document.getElementById('bookCode').value;
+			let bookName = document.getElementById('bookName').value;
+			let author = document.getElementById('author').value;
+			let press = document.getElementById('press').value;
+			let price = document.getElementById('price').value;
+
+
+			let data = 'bookCode=' + bookCode + '&bookName=' + bookName + '&author=' + author + '&press=' + press +
+				'&price=' + price;
+			console.log(data);
+			fetch('./BookAddServlet', {
+					method: 'post',
+					headers: {
+						'Content-type': 'application/x-www-form-urlencoded'
+					},
+					body: data
+				})
+				.then(result => result.json())
+				.then(addCallback)
+				.catch(err => {
+					console.log(err);
+				})
+			return false;
+		}
+
+		function addCallback(result) {
+			console.log(result);
+			document.querySelector('#list').append(makeTr(book));
+
+			document.getElementById('bookCode').value = '';
+			document.getElementById('bookName').value = '';
+			document.getElementById('author').value = '';
+			document.getElementById('press').value = '';
+			document.getElementById('price').value = '';
+
+		}
+	</script>
+</body>
+
+</html>
