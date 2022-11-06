@@ -8,6 +8,23 @@ import co.edu.book.BookVO;
 
 public class BookDAO extends DAO {
 	
+	public boolean deleteBook(String bookCode) { //delete
+		getConnect();
+		String sql = "delete from tbl_book where book_code = ?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, bookCode);
+			
+			int r = psmt.executeUpdate();
+			if(r>0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	public void insertBook(BookVO vo) { // insert
 		getConnect();
 		String sql = "insert into tbl_book (book_code, book_name, author, press, price) \r\n"
@@ -21,7 +38,8 @@ public class BookDAO extends DAO {
 			psmt.setString(4, vo.getPress());
 			psmt.setInt(5, vo.getPrice());
 			
-			psmt.executeUpdate();
+			int rs = psmt.executeUpdate();
+			System.out.println(rs+"건 추가했습니다");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -38,6 +56,7 @@ public class BookDAO extends DAO {
 		try {
 			psmt = conn.prepareStatement(sql);
 			rs = psmt.executeQuery();
+			
 			while(rs.next()) {
 				BookVO vo = new BookVO();
 				vo.setBookCode(rs.getString("book_code"));

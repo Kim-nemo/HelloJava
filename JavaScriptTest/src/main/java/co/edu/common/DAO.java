@@ -21,13 +21,13 @@ public class DAO {
 			Properties prop = new Properties();
 			prop.load(new FileReader("C:/Temp/database.properties"));
 			String driver = prop.getProperty("driver");
-			String url = prop.getProperty("url");
-			String id = prop.getProperty("user");
-			String pass = prop.getProperty("passwd");
+//			String url = prop.getProperty("url");
+//			String id = prop.getProperty("user");
+//			String pass = prop.getProperty("passwd");
 			
 			Class.forName(driver);
-//			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "jhk", "jhk");
-			conn = DriverManager.getConnection(url,id,pass);
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "jhk", "jhk");
+			//conn = DriverManager.getConnection(url,id,pass);
 			System.out.println("연결성공");
 		} catch (Exception e) {
 			System.out.println("연결실패");
