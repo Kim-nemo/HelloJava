@@ -3,6 +3,8 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+	<properties resource="config/db.properties" />
+	
 	<settings> <!-- setting은 environments보다 상위라서 보다 위에 적어줘야함 -->
 		<setting name="jdbcTypeForNull" value="NULL"/> <!-- 대문자 NULL로 써야함 -->
 		<setting name="mapUnderscoreToCamelCase" value="true"/> <!-- 언더바형식을 카멜케이스로 자동으로 바꿔줌 -->
@@ -12,17 +14,16 @@
 		<environment id="development">
 			<transactionManager type="JDBC" />
 			<dataSource type="POOLED"> <!-- 커넥션 풀을 만들겠다 -->
-				<property name="driver" value="oracle.jdbc.driver.OracleDriver" />
-				<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
-				<property name="username" value="jhk" />
-				<property name="password" value="jhk" />
+				<property name="driver" value="${driver}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${user}" />
+				<property name="password" value="${password}" />
 			</dataSource>
 		</environment>
 	</environments>
 	
-	<mappers> <!-- 실제 mapper 연결 -->
-		<mapper resource="co/micol/prj/book/mapper/BookMapper.xml" />
-		<mapper resource="co/micol/prj/member/mapper/MemberMapper.xml"/>		
+	<mappers> <!-- 실제 mapper 연결, 베이스 패키지-->
+		<package name="co.micol.prj"/>		
 	</mappers>
 
 </configuration>
