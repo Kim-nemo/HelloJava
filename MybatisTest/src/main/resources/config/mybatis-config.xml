@@ -22,6 +22,7 @@
 	
 	<mappers> <!-- 실제 mapper 연결 -->
 		<mapper resource="co/micol/prj/book/mapper/BookMapper.xml" />
+		<mapper resource="co/micol/prj/member/mapper/MemberMapper.xml"/>		
 	</mappers>
 
 </configuration>

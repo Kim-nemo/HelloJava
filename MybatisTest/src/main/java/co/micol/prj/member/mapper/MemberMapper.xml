@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.micol.prj.member.mapper.MemberMapper">
+	<select id="memberSelectList">
+		SELECT * FROM MEMBERS
+	</select>
+	
+	<select id="memberSelect" resultType="co.micol.prj.member.vo.MemberVO">
+		SELECT * FROM MEMBERS
+		WHERE ID = #{id}	
+	</select>
+	
+	<insert id="memberInsert"> <!-- #{}안의 값은 vo 이름과같게 -->
+		INSERT INTO MEMBERS
+		VALUES(#{id}, #{passwd}, #{name}, #{email}, 'user')
+	</insert>
+	
+	<delete id="memberDelete">
+		DELETE FROM MEMBERS WHERE ID = #{id}
+	</delete>
+	
+	<update id="memberUpdate">
+		update members
+		set passwd = #{passwd},
+			name = #{name},
+			email = #{email},
+			resposibility = #{resposibility}
+		where id = #{id}
+	</update>
+	
+	<select id="memberLogin" resultType="co.micol.prj.member.vo.MemberVO">
+		SELECT * FROM MEMBERS
+		WHERE ID = #{id} AND PASSWD = #{passwd}
+	</select> <!-- #{}안의 값은 mappar.java에 있는 매개변수값을 넣어주는거(String 다음 갈색글씨) -->
+	
+	<select id="isMemberIdCheck" resultType="boolean"> <!-- 0이면 false(이미 존재하는 id), 1이면 true -->
+		SELECT CASE WHEN COUNT(ID) = 1 THEN 0 ELSE 1 END AS ID
+		FROM MEMBERS WHERE ID = #{id}
+	</select>
+</mapper>

@@ -8,7 +8,8 @@
 </head>
 <body>
 <div align="center">
-	<h1>🎇환영합니다. 우리 홈페이지 오신 것을!!!!🎇</h1>
+	<div><h1>${message }</h1></div>
+	<h3><a href="main.do">홈 가기</a></h3>
 </div>
 </body>
 </html>

@@ -8,12 +8,12 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 // DAO = DataSource
 public class DataSource { // 싱글톤 클래스의 기본형
-	private static SqlSessionFactory sqlSessionFactory; // Mybatis사용
+	private static SqlSessionFactory sqlSessionFactory; // Mybatis사용(그래서 싱글톤사용)
 	
 	private DataSource() {} // 남들이 생성하지 못하도록 생성자를 자기자신이 생성한다
 	
 	public static SqlSessionFactory getInstance() {
-		String resource = "config/mybatis-config.xml";
+		String resource = "config/mybatis-config.xml"; 
 		InputStream inputStream;
 		try {
 			inputStream = Resources.getResourceAsStream(resource);

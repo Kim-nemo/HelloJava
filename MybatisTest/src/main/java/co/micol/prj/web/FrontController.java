@@ -14,6 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import co.micol.prj.book.command.BookList;
 import co.micol.prj.common.Command;
 import co.micol.prj.main.MainCommand;
+import co.micol.prj.member.command.AjaxIdCheck;
+import co.micol.prj.member.command.Logout;
+import co.micol.prj.member.command.MemberJoin;
+import co.micol.prj.member.command.MemberJoinForm;
+import co.micol.prj.member.command.MemberLogin;
+import co.micol.prj.member.command.MemberLoginForm;
 
 /**
  * 모든 요청을 받아들이는 컨트롤러
@@ -31,6 +37,12 @@ public class FrontController extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		map.put("/main.do", new MainCommand()); // 처음 보여줄 페이지 명령
 		map.put("/bookList.do", new BookList()); // 책 목록 보기
+		map.put("/memberLoginForm.do", new MemberLoginForm()); // 로그인 폼 호출
+		map.put("/memberLogin.do", new MemberLogin()); // 멤버로그인처리
+		map.put("/logout.do", new Logout()); // 로그아웃
+		map.put("/memberJoinForm.do", new MemberJoinForm()); //회원가입폼
+		map.put("/ajaxIdCheck.do", new AjaxIdCheck()); //ajax를 이용한 아이디 중복체크
+		map.put("/memberJoin.do", new MemberJoin()); // 회원가입
 	}
 
 	// 요청을 분석하고 실행, 결과를 돌려주는 곳
@@ -50,8 +62,15 @@ public class FrontController extends HttpServlet {
 		// viewResolve : 요청을 보내고 views폴더에 가서 필요한 jsp를 찾아서 응답하는 과정, 돌아갈 곳을 찾아주는 것
 		if(!viewPage.endsWith(".do") && viewPage != null) {// 리턴되는 문자열에서 마지막에 .do가 포함되어있지 않고, null이 아니라면
 			//ajax: 요청한 페이지의 결과를 주는 것
+			if(viewPage.startsWith("ajax:")){//startsWith에 ajax가 포함되어있다면
+				response.setContentType("text/html; charset=UTF-8");
+				response.getWriter().append(viewPage.substring(5)); // viewPage가 가지고 있는 ajax:까지 자르고 그 다음 결과만 리턴
+				return;
+			}
 			//타일즈 돌아가는 곳
-			viewPage = "/WEB-INF/views/" + viewPage + ".jsp"; // WEB-INF는 서버에서만 접근 가능하니까 접근가능하도록 하는 과정
+			if(!viewPage.endsWith(".tiles")) { //끝이 타일즈가 아니면
+				viewPage = "/WEB-INF/views/" + viewPage + ".jsp"; // 타일즈를 안 태울때, WEB-INF는 서버에서만 접근 가능하니까 접근가능하도록 하는 과정
+			}
 			// view를 찾고 dispatcher 시키기
 			RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 			dispatcher.forward(request, response); // 권한 위임 하는데 request값이 실려감 (ex. 삼성 AS 센터)
